@@ -1,4 +1,5 @@
 import requests
+import json
 
 def emotion_detector(text_to_analyse):
     # Define the URL for the sentiment analysis API
@@ -13,4 +14,9 @@ def emotion_detector(text_to_analyse):
     # Make a POST request to the API with the payload and headers
     response = requests.post(url, json=myobj, headers=header)
 
-    return response.text
+    formatted_response = json.loads(response.text)
+    emotionPredictions = formatted_response['emotionPredictions'][0]
+    emotions = emotionPredictions['emotion']
+    emotions['dominant_emotion'] = max(emotions, key=emotions.get)
+
+    return emotions
