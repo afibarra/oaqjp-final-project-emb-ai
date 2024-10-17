@@ -19,4 +19,8 @@ def emotion_detector(text_to_analyse):
     emotions = emotionPredictions['emotion']
     emotions['dominant_emotion'] = max(emotions, key=emotions.get)
 
+    if response.status_code == 400:
+        for key in emotions:
+            emotions[key] = None
+
     return emotions
